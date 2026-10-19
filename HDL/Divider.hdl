@@ -1,0 +1,119 @@
+CHIP Divider {
+    IN dividend[16], divisor[16], start;
+    OUT quotient[16], remainder[16], done;
+
+    PARTS:
+    // Store divisor
+    Register16(
+        in=divisor,
+        load=start,
+        out=divisorStored
+    );
+
+    // Compare current remainder with divisor
+    GreaterEqual16(
+        a=currentRemainder,
+        b=divisorStored,
+        ge=canSubtract
+    );
+
+    // Subtract divisor from remainder
+    Sub16(
+        a=currentRemainder,
+        b=divisorStored,
+        out=difference
+    );
+
+    // Increment quotient
+    Inc16(
+        in=currentQuotient,
+        out=incremented
+    );
+
+    // Generate zero
+    Zero16(out=zero);
+
+    // Initialize quotient to zero on start
+    Mux16(
+        a=incremented,
+        b=zero,
+        sel=start,
+        out=quotientInput
+    );
+
+    Or(
+        a=start,
+        b=doIncrement,
+        out=quotientLoad
+    );
+
+    Register16(
+        in=quotientInput,
+        load=quotientLoad,
+        out=currentQuotient
+    );
+
+    // Initialize remainder or store subtraction result
+    Mux16(
+        a=difference,
+        b=dividend,
+        sel=start,
+        out=remainderInput
+    );
+
+    Or(
+        a=start,
+        b=doSubtract,
+        out=remainderLoad
+    );
+
+    Register16(
+        in=remainderInput,
+        load=remainderLoad,
+        out=currentRemainder
+    );
+
+    // Connect internal values to outputs
+    Or16(
+        a=currentRemainder,
+        b=false,
+        out=remainder
+    );
+
+    Or16(
+        a=currentQuotient,
+        b=false,
+        out=quotient
+    );
+
+    // Control the division process
+    DividerControl(
+        start=start,
+        canSubtract=canSubtract,
+        running=running,
+        nextRunning=nextRunning,
+        doSubtract=doSubtract,
+        doIncrement=doIncrement,
+        done=rawDone
+    );
+
+    // Store running state
+    Or(
+        a=start,
+        b=running,
+        out=runningLoad
+    );
+
+    DividerState(
+        in=nextRunning,
+        load=runningLoad,
+        out=running
+    );
+
+    // Completion output
+    Or(
+        a=rawDone,
+        b=false,
+        out=done
+    );
+}

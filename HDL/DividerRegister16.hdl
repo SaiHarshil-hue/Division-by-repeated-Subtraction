@@ -1,0 +1,7 @@
+CHIP DividerRegister16 {
+    IN in[16], load;
+    OUT out[16];
+
+    PARTS:
+    Register16(in=in, load=load, out=out);
+}

@@ -1,0 +1,150 @@
+CHIP GreaterEqual16 {
+    IN a[16], b[16];
+    OUT ge;
+
+    PARTS:
+
+    // Bit 15
+    Not(in=b[15], out=nb15);
+    And(a=a[15], b=nb15, out=g15a);
+    Xor(a=a[15], b=b[15], out=x15);
+    Not(in=x15, out=e15);
+
+    // Bit 14
+    Not(in=b[14], out=nb14);
+    And(a=a[14], b=nb14, out=g14a);
+    And(a=e15, b=g14a, out=g14);
+    Or(a=g15a, b=g14, out=g15);
+    Xor(a=a[14], b=b[14], out=x14);
+    Not(in=x14, out=e14a);
+    And(a=e15, b=e14a, out=e14);
+
+    // Bit 13
+    Not(in=b[13], out=nb13);
+    And(a=a[13], b=nb13, out=g13a);
+    And(a=e14, b=g13a, out=g13);
+    Or(a=g15, b=g13, out=g14x);
+    Xor(a=a[13], b=b[13], out=x13);
+    Not(in=x13, out=e13a);
+    And(a=e14, b=e13a, out=e13);
+
+    // Bit 12
+    Not(in=b[12], out=nb12);
+    And(a=a[12], b=nb12, out=g12a);
+    And(a=e13, b=g12a, out=g12);
+    Or(a=g14x, b=g12, out=g13x);
+    Xor(a=a[12], b=b[12], out=x12);
+    Not(in=x12, out=e12a);
+    And(a=e13, b=e12a, out=e12);
+
+    // Bit 11
+    Not(in=b[11], out=nb11);
+    And(a=a[11], b=nb11, out=g11a);
+    And(a=e12, b=g11a, out=g11);
+    Or(a=g13x, b=g11, out=g12x);
+    Xor(a=a[11], b=b[11], out=x11);
+    Not(in=x11, out=e11a);
+    And(a=e12, b=e11a, out=e11);
+
+    // Bit 10
+    Not(in=b[10], out=nb10);
+    And(a=a[10], b=nb10, out=g10a);
+    And(a=e11, b=g10a, out=g10);
+    Or(a=g12x, b=g10, out=g11x);
+    Xor(a=a[10], b=b[10], out=x10);
+    Not(in=x10, out=e10a);
+    And(a=e11, b=e10a, out=e10);
+
+    // Bit 9
+    Not(in=b[9], out=nb9);
+    And(a=a[9], b=nb9, out=g9a);
+    And(a=e10, b=g9a, out=g9);
+    Or(a=g11x, b=g9, out=g10x);
+    Xor(a=a[9], b=b[9], out=x9);
+    Not(in=x9, out=e9a);
+    And(a=e10, b=e9a, out=e9);
+
+    // Bit 8
+    Not(in=b[8], out=nb8);
+    And(a=a[8], b=nb8, out=g8a);
+    And(a=e9, b=g8a, out=g8);
+    Or(a=g10x, b=g8, out=g9x);
+    Xor(a=a[8], b=b[8], out=x8);
+    Not(in=x8, out=e8a);
+    And(a=e9, b=e8a, out=e8);
+
+    // Bit 7
+    Not(in=b[7], out=nb7);
+    And(a=a[7], b=nb7, out=g7a);
+    And(a=e8, b=g7a, out=g7);
+    Or(a=g9x, b=g7, out=g8x);
+    Xor(a=a[7], b=b[7], out=x7);
+    Not(in=x7, out=e7a);
+    And(a=e8, b=e7a, out=e7);
+
+    // Bit 6
+    Not(in=b[6], out=nb6);
+    And(a=a[6], b=nb6, out=g6a);
+    And(a=e7, b=g6a, out=g6);
+    Or(a=g8x, b=g6, out=g7x);
+    Xor(a=a[6], b=b[6], out=x6);
+    Not(in=x6, out=e6a);
+    And(a=e7, b=e6a, out=e6);
+
+    // Bit 5
+    Not(in=b[5], out=nb5);
+    And(a=a[5], b=nb5, out=g5a);
+    And(a=e6, b=g5a, out=g5);
+    Or(a=g7x, b=g5, out=g6x);
+    Xor(a=a[5], b=b[5], out=x5);
+    Not(in=x5, out=e5a);
+    And(a=e6, b=e5a, out=e5);
+
+    // Bit 4
+    Not(in=b[4], out=nb4);
+    And(a=a[4], b=nb4, out=g4a);
+    And(a=e5, b=g4a, out=g4);
+    Or(a=g6x, b=g4, out=g5x);
+    Xor(a=a[4], b=b[4], out=x4);
+    Not(in=x4, out=e4a);
+    And(a=e5, b=e4a, out=e4);
+
+    // Bit 3
+    Not(in=b[3], out=nb3);
+    And(a=a[3], b=nb3, out=g3a);
+    And(a=e4, b=g3a, out=g3);
+    Or(a=g5x, b=g3, out=g4x);
+    Xor(a=a[3], b=b[3], out=x3);
+    Not(in=x3, out=e3a);
+    And(a=e4, b=e3a, out=e3);
+
+    // Bit 2
+    Not(in=b[2], out=nb2);
+    And(a=a[2], b=nb2, out=g2a);
+    And(a=e3, b=g2a, out=g2);
+    Or(a=g4x, b=g2, out=g3x);
+    Xor(a=a[2], b=b[2], out=x2);
+    Not(in=x2, out=e2a);
+    And(a=e3, b=e2a, out=e2);
+
+    // Bit 1
+    Not(in=b[1], out=nb1);
+    And(a=a[1], b=nb1, out=g1a);
+    And(a=e2, b=g1a, out=g1);
+    Or(a=g3x, b=g1, out=g2x);
+    Xor(a=a[1], b=b[1], out=x1);
+    Not(in=x1, out=e1a);
+    And(a=e2, b=e1a, out=e1);
+
+    // Bit 0
+    Not(in=b[0], out=nb0);
+    And(a=a[0], b=nb0, out=g0a);
+    And(a=e1, b=g0a, out=g0);
+    Or(a=g2x, b=g0, out=greater);
+
+    Xor(a=a[0], b=b[0], out=x0);
+    Not(in=x0, out=e0a);
+    And(a=e1, b=e0a, out=equal);
+
+    Or(a=greater, b=equal, out=ge);
+}

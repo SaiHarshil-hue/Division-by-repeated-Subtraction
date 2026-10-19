@@ -1,0 +1,7 @@
+CHIP CanSubtract16 {
+    IN remainder[16], divisor[16];
+    OUT canSubtract;
+
+    PARTS:
+    GreaterEqual16(a=remainder, b=divisor, ge=canSubtract);
+}

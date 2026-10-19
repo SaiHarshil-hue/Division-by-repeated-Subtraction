@@ -1,0 +1,22 @@
+CHIP CompareBit {
+    IN a, b, gtIn, eqIn, ltIn;
+    OUT gtOut, eqOut, ltOut;
+
+    PARTS:
+    Not(in=b, out=notB);
+    Not(in=a, out=notA);
+
+    And(a=a, b=notB, out=aGTb);
+    And(a=notA, b=b, out=aLTb);
+
+    And(a=eqIn, b=aGTb, out=newGT);
+    And(a=eqIn, b=aLTb, out=newLT);
+
+    Or(a=gtIn, b=newGT, out=gtOut);
+    Or(a=ltIn, b=newLT, out=ltOut);
+
+    Xor(a=a, b=b, out=diff);
+    Not(in=diff, out=same);
+
+    And(a=eqIn, b=same, out=eqOut);
+}

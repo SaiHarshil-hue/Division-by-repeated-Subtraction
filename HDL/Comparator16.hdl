@@ -1,0 +1,53 @@
+CHIP Comparator16 {
+    IN a[16], b[16];
+    OUT gt, eq, lt;
+
+    PARTS:
+    CompareBit(a=a[15], b=b[15], gtIn=false, eqIn=true, ltIn=false,
+               gtOut=g15, eqOut=e15, ltOut=l15);
+
+    CompareBit(a=a[14], b=b[14], gtIn=g15, eqIn=e15, ltIn=l15,
+               gtOut=g14, eqOut=e14, ltOut=l14);
+
+    CompareBit(a=a[13], b=b[13], gtIn=g14, eqIn=e14, ltIn=l14,
+               gtOut=g13, eqOut=e13, ltOut=l13);
+
+    CompareBit(a=a[12], b=b[12], gtIn=g13, eqIn=e13, ltIn=l13,
+               gtOut=g12, eqOut=e12, ltOut=l12);
+
+    CompareBit(a=a[11], b=b[11], gtIn=g12, eqIn=e12, ltIn=l12,
+               gtOut=g11, eqOut=e11, ltOut=l11);
+
+    CompareBit(a=a[10], b=b[10], gtIn=g11, eqIn=e11, ltIn=l11,
+               gtOut=g10, eqOut=e10, ltOut=l10);
+
+    CompareBit(a=a[9], b=b[9], gtIn=g10, eqIn=e10, ltIn=l10,
+               gtOut=g9, eqOut=e9, ltOut=l9);
+
+    CompareBit(a=a[8], b=b[8], gtIn=g9, eqIn=e9, ltIn=l9,
+               gtOut=g8, eqOut=e8, ltOut=l8);
+
+    CompareBit(a=a[7], b=b[7], gtIn=g8, eqIn=e8, ltIn=l8,
+               gtOut=g7, eqOut=e7, ltOut=l7);
+
+    CompareBit(a=a[6], b=b[6], gtIn=g7, eqIn=e7, ltIn=l7,
+               gtOut=g6, eqOut=e6, ltOut=l6);
+
+    CompareBit(a=a[5], b=b[5], gtIn=g6, eqIn=e6, ltIn=l6,
+               gtOut=g5, eqOut=e5, ltOut=l5);
+
+    CompareBit(a=a[4], b=b[4], gtIn=g5, eqIn=e5, ltIn=l5,
+               gtOut=g4, eqOut=e4, ltOut=l4);
+
+    CompareBit(a=a[3], b=b[3], gtIn=g4, eqIn=e4, ltIn=l4,
+               gtOut=g3, eqOut=e3, ltOut=l3);
+
+    CompareBit(a=a[2], b=b[2], gtIn=g3, eqIn=e3, ltIn=l3,
+               gtOut=g2, eqOut=e2, ltOut=l2);
+
+    CompareBit(a=a[1], b=b[1], gtIn=g2, eqIn=e2, ltIn=l2,
+               gtOut=g1, eqOut=e1, ltOut=l1);
+
+    CompareBit(a=a[0], b=b[0], gtIn=g1, eqIn=e1, ltIn=l1,
+               gtOut=gt, eqOut=eq, ltOut=lt);
+}

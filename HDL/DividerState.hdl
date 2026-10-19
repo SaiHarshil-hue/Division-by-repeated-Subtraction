@@ -1,0 +1,7 @@
+CHIP DividerState {
+    IN in, load;
+    OUT out;
+
+    PARTS:
+    Bit(in=in, load=load, out=out);
+}

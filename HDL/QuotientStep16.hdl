@@ -1,0 +1,8 @@
+CHIP QuotientStep16 {
+    IN quotient[16], load;
+    OUT out[16];
+
+    PARTS:
+    Inc16(in=quotient, out=incremented);
+    DividerRegister16(in=incremented, load=load, out=out);
+}

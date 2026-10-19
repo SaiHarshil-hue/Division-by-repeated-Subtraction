@@ -1,0 +1,2 @@
+| a | b | gtIn | eqIn | ltIn | gtOut | eqOut | ltOut |
+| 1 | 0 | 0    | 1    | 0    | 1     | 0     | 0     |

@@ -1,0 +1,17 @@
+CHIP DividerControl {
+    IN start, canSubtract, running;
+    OUT nextRunning, doSubtract, doIncrement, done;
+
+    PARTS:
+    And(a=running, b=canSubtract, out=continueRunning);
+
+    Or(a=start, b=continueRunning, out=nextRunning);
+
+    And(a=running, b=canSubtract, out=doSubtract);
+
+    And(a=running, b=canSubtract, out=doIncrement);
+
+    Not(in=canSubtract, out=cannotSubtract);
+
+    And(a=running, b=cannotSubtract, out=done);
+}

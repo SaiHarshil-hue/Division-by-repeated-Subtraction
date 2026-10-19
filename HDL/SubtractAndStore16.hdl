@@ -1,0 +1,8 @@
+CHIP SubtractAndStore16 {
+    IN remainder[16], divisor[16], load;
+    OUT out[16];
+
+    PARTS:
+    Sub16(a=remainder, b=divisor, out=difference);
+    RemainderRegister16(in=difference, load=load, out=out);
+}

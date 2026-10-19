@@ -1,0 +1,8 @@
+CHIP SubtractControl {
+    IN canSubtract;
+    OUT doSubtract, doIncrement;
+
+    PARTS:
+    Or(a=canSubtract, b=canSubtract, out=doSubtract);
+    Or(a=canSubtract, b=canSubtract, out=doIncrement);
+}

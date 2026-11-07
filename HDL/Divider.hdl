@@ -3,49 +3,34 @@ CHIP Divider {
     OUT quotient[16], remainder[16], done;
 
     PARTS:
-    // Store divisor
-    Register16(
-        in=divisor,
-        load=start,
-        out=divisorStored
-    );
 
-    // Compare current remainder with divisor
+    // Detect a new start signal
+    DividerState(in=start, load=true, out=previousStart);
+    Not(in=previousStart, out=notPreviousStart);
+    And(a=start, b=notPreviousStart, out=newStart);
+
+    // Store divisor only during initialization
+    Register16(in=divisor, load=newStart, out=divisorStored);
+
+    // Compare remainder and divisor
     GreaterEqual16(
         a=currentRemainder,
         b=divisorStored,
         ge=canSubtract
     );
 
-    // Subtract divisor from remainder
-    Sub16(
-        a=currentRemainder,
-        b=divisorStored,
-        out=difference
-    );
+    // Subtract divisor
+    Sub16(a=currentRemainder, b=divisorStored, out=difference);
 
     // Increment quotient
-    Inc16(
-        in=currentQuotient,
-        out=incremented
-    );
+    Inc16(in=currentQuotient, out=incremented);
 
     // Generate zero
     Zero16(out=zero);
 
-    // Initialize quotient to zero on start
-    Mux16(
-        a=incremented,
-        b=zero,
-        sel=start,
-        out=quotientInput
-    );
-
-    Or(
-        a=start,
-        b=doIncrement,
-        out=quotientLoad
-    );
+    // Initialize quotient or increment it
+    Mux16(a=incremented, b=zero, sel=newStart, out=quotientInput);
+    Or(a=newStart, b=doIncrement, out=quotientLoad);
 
     Register16(
         in=quotientInput,
@@ -53,19 +38,9 @@ CHIP Divider {
         out=currentQuotient
     );
 
-    // Initialize remainder or store subtraction result
-    Mux16(
-        a=difference,
-        b=dividend,
-        sel=start,
-        out=remainderInput
-    );
-
-    Or(
-        a=start,
-        b=doSubtract,
-        out=remainderLoad
-    );
+    // Initialize or update remainder
+    Mux16(a=difference, b=dividend, sel=newStart, out=remainderInput);
+    Or(a=newStart, b=doSubtract, out=remainderLoad);
 
     Register16(
         in=remainderInput,
@@ -73,22 +48,13 @@ CHIP Divider {
         out=currentRemainder
     );
 
-    // Connect internal values to outputs
-    Or16(
-        a=currentRemainder,
-        b=false,
-        out=remainder
-    );
+    // Connect outputs
+    Or16(a=currentRemainder, b=false, out=remainder);
+    Or16(a=currentQuotient, b=false, out=quotient);
 
-    Or16(
-        a=currentQuotient,
-        b=false,
-        out=quotient
-    );
-
-    // Control the division process
+    // Division control
     DividerControl(
-        start=start,
+        start=newStart,
         canSubtract=canSubtract,
         running=running,
         nextRunning=nextRunning,
@@ -98,11 +64,7 @@ CHIP Divider {
     );
 
     // Store running state
-    Or(
-        a=start,
-        b=running,
-        out=runningLoad
-    );
+    Or(a=newStart, b=running, out=runningLoad);
 
     DividerState(
         in=nextRunning,
@@ -110,10 +72,15 @@ CHIP Divider {
         out=running
     );
 
-    // Completion output
-    Or(
-        a=rawDone,
-        b=false,
+    // Store completion status
+    Not(in=newStart, out=notNewStart);
+    And(a=rawDone, b=notNewStart, out=doneInput);
+
+    Or(a=newStart, b=running, out=doneLoad);
+
+    DividerState(
+        in=doneInput,
+        load=doneLoad,
         out=done
     );
 }
